@@ -13,7 +13,7 @@ import re
 
 df = pd.DataFrame(columns=["title", "user_Score", "release_Date", "console", "url",
                            "publisher", "developer", "tot_ship", 'tot_sale','na_sale','pal_sale','jp_sale',
-                           'other_sale', 'release_date', 'last_update'])    
+                           'other_sale', 'last_update', 'VGscore'])    
 
 page = 1
 urlprefix = 'http://www.vgchartz.com/games/games.php?page='
@@ -32,6 +32,7 @@ with requests.Session() as session:
               
                             for row in main:
                                    ahref = row.findAll("a", href = True)[1].contents[0]
+                                   url = row.findAll("a", href = True)[1]['href']
                                    console = row.findAll("img", alt = True)[1]['alt']
                                    tdcontainer = row.findAll('td')
                                    publisher = tdcontainer[4].contents[0]
@@ -46,16 +47,33 @@ with requests.Session() as session:
                                    other_sale = tdcontainer[14].contents[0]
                                    release_date = tdcontainer[15].contents[0]
                                    last_update = tdcontainer[16].contents[0]
-                                   game_data = {'title':[ahref], "console":[console], "user_Score":[user_score], "release_Date": [release_date], "publisher":[publisher],
+                                   game_data = {'title':[ahref], "console":[console], "user_Score":[user_score], "VGscore":[VGscore], "release_Date": [release_date], "publisher":[publisher],
                                                  "developer":[developer],"tot_ship": [tot_ship],"tot_sale": [tot_sale], "na_sale":[na_sale], "pal_sale":[pal_sale],
-                                                 "jp_sale": [jp_sale], "other_sale": [other_sale], "last_update": [last_update]  }
-                                   df = df.append(pd.DataFrame(data = game_data)).reset_index(drop = True)
+                                                 "jp_sale": [jp_sale], "other_sale": [other_sale], "last_update": [last_update], "url":[url]}
+                                   df = df.append(pd.DataFrame(data = game_data), sort = False).reset_index(drop = True)
               except Exception as inst:
                      print (inst)
                      print (page)
-              page += 1
-              print ("Done " + str(page))
 
+              try:     
+                     for game in df['url']:
+                            req = Request(game.replace("?region=All", "sales"), headers ={'User-Agent':'Mozilla/5.0'})
+                            page1 = urlopen(req)
+                            if page1.getcode() == 200:
+                                   webpage = page1.read()
+                                   page_soup = soup(webpage, "html.parser")
+                                   main = page_soup.find("div", {'id': 'gameGenInfoBox'})
+                                   genre = main.findAll('p')[3].contents[0]
+                                   sales = page_soup.findAll('div', {'id': 'gameSalesBox'})
+                                   if sales:
+                                          
+
+                     page += 1
+                     print ("Done " + str(page))
+                     
 print ("Done")
 df.to_csv("vgscore.csv", index = False)  
     
+
+
+           
