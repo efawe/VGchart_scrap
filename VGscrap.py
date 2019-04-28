@@ -50,7 +50,7 @@ with requests.Session() as session:
                                    game_data = {'title':[ahref], "console":[console], "user_Score":[user_score], "VGscore":[VGscore], "release_Date": [release_date], "publisher":[publisher],
                                                  "developer":[developer],"tot_ship": [tot_ship],"tot_sale": [tot_sale], "na_sale":[na_sale], "pal_sale":[pal_sale],
                                                  "jp_sale": [jp_sale], "other_sale": [other_sale], "last_update": [last_update], "url":[url]}
-                                   df = df.append(pd.DataFrame(data = game_data), sort = False).reset_index(drop = True)
+                                   df = df.append(pd.DataFrame(data = game_data)).reset_index(drop = True)
               except Exception as inst:
                      print (inst)
                      print (page)
@@ -64,8 +64,9 @@ with requests.Session() as session:
                                    page_soup = soup(webpage, "html.parser")
                                    main = page_soup.find("div", {'id': 'gameGenInfoBox'})
                                    genre = main.findAll('p')[3].contents[0]
-                                   sales = page_soup.findAll('div', {'id': 'gameSalesBox'})
+                                   sales = page_soup.findAll('div', {'id': 'salesWeekly'})
                                    if sales:
+                                          country1 = sales[0].findAll("div")[2].contents[0]
                                           
 
                      page += 1
