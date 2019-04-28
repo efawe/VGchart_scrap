@@ -13,7 +13,7 @@ import re
 
 df = pd.DataFrame(columns=["title", "user_Score", "release_Date", "console", "url",
                            "publisher", "developer", "tot_ship", 'tot_sale','na_sale','pal_sale','jp_sale',
-                           'other_sale', 'release_date', 'last_update'])    
+                           'other_sale', 'last_update'])    
 
 page = 1
 urlprefix = 'http://www.vgchartz.com/games/games.php?page='
@@ -49,7 +49,7 @@ with requests.Session() as session:
                                    game_data = {'title':[ahref], "console":[console], "user_Score":[user_score], "release_Date": [release_date], "publisher":[publisher],
                                                  "developer":[developer],"tot_ship": [tot_ship],"tot_sale": [tot_sale], "na_sale":[na_sale], "pal_sale":[pal_sale],
                                                  "jp_sale": [jp_sale], "other_sale": [other_sale], "last_update": [last_update]  }
-                                   df = df.append(pd.DataFrame(data = game_data)).reset_index(drop = True)
+                                   df = df.append(pd.DataFrame(data = game_data), sort = False).reset_index(drop = True)
               except Exception as inst:
                      print (inst)
                      print (page)
