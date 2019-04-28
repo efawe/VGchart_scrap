@@ -1,0 +1,238 @@
+@charset "utf-8";
+/* CSS Document */
+
+.hardware_sales {
+margin-top:16px;
+}
+.hardware_sales table {
+max-width:320px;
+table-layout: fixed;
+width: 100%;
+}
+.hardware_sales th {
+background-color:#747474;
+color:#FFFFFF;
+font-size:10pt;
+padding:4px 3px;
+}
+.hardware_sales td {
+background-color:#F5F5F5;
+border-bottom:1px dotted #CCCCCC;
+color:#666666;
+font-size:9pt;
+font-style:italic;
+padding:5px 4px 5px 0px;
+}
+.hardware_sales a {
+color:#434343;
+}
+.hardware_sales a:hover {
+color:#DE6F00;
+text-decoration:none;
+}
+.hardware_sales p {
+color:#5E5E5E;
+margin-top:8px;
+}
+.worldwide_sales {
+margin-top:16px;
+}
+.worldwide_sales table h2 {
+background:none repeat scroll 0 0 transparent;
+color:#FFFFFF;
+margin-top:5px;
+padding: 0;
+}
+.worldwide_sales table {
+  width: 100%;
+}
+.worldwide_sales th {
+background-color:#747474;
+color:#535353;
+font-size:10pt;
+padding:5px;
+}
+.worldwide_sales td {
+background-color:#F5F5F5;
+border-bottom:1px dotted #CCCCCC;
+color:#434343;
+font-size:10pt;
+font-style:italic;
+font-weight:bold;
+padding:5px;
+}
+.worldwide_sales p {
+color:#5E5E5E;
+margin-top:0;
+}
+.panel a {
+color:#434343;
+}
+.panel a:hover {
+color:#DE6F00;
+text-decoration:none;
+}
+.bftp_sales {
+margin-top:16px;
+}
+.bftp_sales table h2 {
+background:none repeat scroll 0 0 transparent;
+color:#FFFFFF;
+margin-top:5px;
+padding: 0;
+}
+.bftp_sales table {
+max-width:320px;
+}
+.bftp_sales th {
+background-color:#747474;
+color:#535353;
+font-size:10pt;
+padding:5px;
+}
+.bftp_sales td {
+background-color:#F5F5F5;
+border-bottom:1px dotted #CCCCCC;
+color:#434343;
+font-size:10pt;
+font-style:italic;
+font-weight:bold;
+padding:5px;
+}
+.bftp_sales p {
+color:#5E5E5E;
+margin-top:0;
+}
+.bftp_sales div table tbody tr th h2 {
+  color:#ffffff;
+}
+
+ul.tabNavigation {
+	list-style:none outside none;
+	margin:0;
+	padding: 1px 0 0 0;
+}
+
+ul.tabNavigation li {
+	display: inline;
+}
+
+ul.tabNavigation li a {
+	-moz-border-radius: 5px 5px 0 0;
+	background-color:#dfdfdf;
+	line-height: 20px;
+	padding: 3px 5px;
+	margin-right: 1px;
+	color:#535353;
+	font-size:12px;
+	text-decoration:none;
+}
+
+ul.tabNavigation li a.selected, ul.tabNavigation li a:hover {
+background-color:#747474;
+color:#FFFFFF;
+}
+ul.tabNavigation li a:focus {
+outline:0 none;
+}
+
+a.graph_menu_link {
+	background-color:#777;
+	color:#fff;
+	cursor:pointer;
+	font-size:10px;
+	font-style:italic;
+	font-weight:bold;
+	padding:2px 4px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	z-index:2;
+}
+
+a.graph_menu_link:hover {
+	text-decoration:none;
+}
+
+
+
+.graph_menu {
+	background-color:#777;
+	padding:5px;
+	position:absolute;
+	left:0;
+	bottom:16px;
+	z-index:10;
+}
+
+.graph_menu a {
+	color:#fff;
+	font-style:italic;
+}
+
+a.embed_link {
+	background-color:#777;
+	bottom:0;
+	color:#fff;
+	cursor:pointer;
+	font-size:10px;
+	font-style:italic;
+	font-weight:bold;
+	padding:2px 4px;
+	position:absolute;
+	right:0;
+	z-index:2;
+}
+
+a.embed_link:hover {
+	text-decoration:none;
+}
+
+.embed_code {
+	background-color:#777;
+	bottom:16px;
+	left:0;
+	position:absolute;
+	width:320px;
+	z-index:10;
+}
+
+.embed_code p {
+	color:#fff;
+	font-style:italic;
+	margin:10px;
+}
+
+.embed_code textarea {
+	background-color:#888;
+	border:0 none;
+	color:#fff;
+	font-family:Calibri,'Trebuchet MS';
+	font-size:10pt;
+	font-style:italic;
+	margin-bottom:10px;
+	width:100%;
+}
+
+#worldwide_sales {
+	position:relative;
+}
+
+span.hardware_sales_date {
+	font-size:12px;
+	font-style:italic;
+	font-weight:lighter;
+	margin-left:10px;
+}
+h2#hp_title {
+	background: url("http://hub.vgchartz.com/assets/images2/title-bar-bg-vgc.jpg") repeat scroll 0 0 transparent;
+	color:#FFFFFF;
+	font-size:18px;
+	font-style:normal;
+	font-weight:bold;
+	height: 28px;
+	line-height: 28px;
+	margin: 0;
+	padding: 0 0 0 10px;
+	position: relative;
+}

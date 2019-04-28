@@ -1,0 +1,237 @@
+$(document).ready(function(){
+  $('.error').hide();
+
+  $("#releasereset").click(function() {
+    var gameid = 	$("input#gameid").val();
+    var region = 	$("input#region").val();
+    $.ajax({
+      type: "POST",
+      url: "/games/releasesave.php",
+      data: {gameid: gameid, region:region, upload:"Reset"},
+      success: function(data) {
+        $('#formcell').html(data);
+      }
+    });
+    return false;
+  });
+
+  $("#releaseupload").click(function() {
+    // validate and process form here   
+    $('.error').hide();
+    var publisher = 	$("input#publisher").val();
+    if (publisher!="") {
+      $.ajax({
+        type: "POST",
+        async: false,
+        url: "/games/getpublishers.php",
+        data:{keyword:publisher, type:"Validate"},
+        beforeSend: function(){
+          $("#publisher").css("background","#00000 url(http://www.vgchartz.com/gamesv2/ajax-loader.gif) no-repeat 165px");
+        },
+        success: function(data){
+          publisher=data;
+          return false;
+        }
+      });
+    }
+    if (publisher == 0) {
+      //invalid Publisher
+      $("div#publisher_error").show();
+      $("input#publisher").focus();
+      return false;
+    }
+    else {
+      //valid Publisher=submit
+      var gameid = 	$("input#gameid").val();
+      var region = 	$("input#region").val();
+      var submit = 	$("input#submit").val();
+      var status = 	$("#status option:selected").val();
+      var distribution = $("#distribution option:selected").val();
+      var amonth = 	$("#amonth option:selected").val();
+      var aday = 	$("#aday option:selected").val();
+      var ayear = 	$("#ayear option:selected").val();
+      $.ajax({
+        type: "POST",
+        url: "/games/releasesave.php",
+        data: {gameid: gameid, region:region, publisher:publisher, status:status, distribution:distribution, amonth:amonth, aday:aday, ayear:ayear, upload:"Submit"},
+        success: function(data) {
+          $('#formcell').html(data);
+        }
+      });
+      return false;
+    }
+  return false;
+  });
+
+  $("#gameinfoupload").click(function() {
+    // validate and process form here   
+    $('.error').hide();
+    var developer = 	$("input#developer").val();
+    //alert(developer);
+    if (developer!="") {
+      $.ajax({
+        type: "POST",
+        async: false,
+        url: "/games/getdevelopers.php",
+        data:{keyword:developer, type:"Validate"},
+        beforeSend: function(){
+          $("#developer").css("background","#00000 url(http://www.vgchartz.com/gamesv2/ajax-loader.gif) no-repeat 165px");
+        },
+        success: function(data){
+          developer=data;
+          return false;
+        }
+      });
+    }
+    if (developer == 0) {
+      //invalid developer
+      $("div#developer_error").show();
+      $("input#developer").focus();
+      return false;
+    }
+    else {
+      //valid developer=submit
+      var gameid =	$("input#gameid").val();
+      var gameinfotot = $("input#gameinfotot").val();
+      var console = 	$("input#console").val();
+      var usname = 	$("input#usname").val();
+      var palname = 	$("input#palname").val();
+      var japname = 	$("input#japname").val();
+      var japcharname = $("input#japcharname").val();
+      var platform = 	$("#platform option:selected").val();
+      var genre = 	$("#genre option:selected").val();
+      var esrbrating = 	$("#esrbrating option:selected").val();
+      var cerorating = 	$("#cerorating option:selected").val();
+      var pegirating = 	$("#pegirating option:selected").val();
+      var onlinegame =	$("#onlinegame").attr("checked");
+      //alert(palname);
+      //alert("test:"+developer);
+      $.ajax({
+        type: "POST",
+        url: "/games/gameinfosave.php",
+        data: {gameid: gameid, gameinfotot:gameinfotot, console:console, usname:usname, palname:palname, japname:japname, japcharname:japcharname, platform:platform, developer:developer, genre:genre, esrbrating:esrbrating, cerorating:cerorating, pegirating:pegirating, onlinegame:onlinegame},
+        success: function(data) {
+          $('#formcell').html(data);
+        }
+      });
+      return false;
+    }
+  return false;
+  });
+
+  $("#developer").keyup(function(){
+    $('.error').hide();
+    $.ajax({
+      type: "POST",
+      url: "/games/getdevelopers.php",
+      data:{keyword:$(this).val(), type:"Lookup"},
+      beforeSend: function(){
+        $("#developer").css("background","#00000 url(http://www.vgchartz.com/gamesv2/ajax-loader.gif) no-repeat 165px");
+      },
+      success: function(data){
+        $("#devsuggestion-box").show();
+        $("#devsuggestion-box").html(data);
+        $("#developer").css("background","#00000");
+      }
+    });
+  }); 
+
+  $("#publisher").keyup(function(){
+    $('.error').hide();
+    $.ajax({
+      type: "POST",
+      url: "/games/getpublishers.php",
+      data:{keyword:$(this).val(), type:"Lookup"},
+      beforeSend: function(){
+        $("#publisher").css("background","#00000 url(http://www.vgchartz.com/gamesv2/ajax-loader.gif) no-repeat 165px");
+      },
+      success: function(data){
+        $("#pubsuggestion-box").show();
+        $("#pubsuggestion-box").html(data);
+        $("#publisher").css("background","#00000");
+      }
+    });
+  }); 
+
+  $("#devpub-list").keyup(function(){
+    $('.error').hide();
+    var devpubtype=$("#devpub-select").val();
+    var url="";
+
+    if (devpubtype=="Developer")
+      url="/games/getdevelopers.php"
+    if (devpubtype=="Publisher")
+      url="/games/getpublishers.php"
+    if (url=="") {
+      //invalid developer
+      $("div#devpub_error").show();
+      $("select#devpub-select").focus();
+      return false;
+    }   
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data:{keyword:$(this).val(), type:"Lookup_" + devpubtype},
+      beforeSend: function(){
+        $("#devpub").css("background","#00000 url(http://www.vgchartz.com/gamesv2/ajax-loader.gif) no-repeat 165px");
+      },
+      success: function(data){
+        $("#devpubsuggestion-box").show();
+        $("#devpubsuggestion-box").html(data);
+        $("#devpub").css("background","#00000");
+      }
+    });
+  }); 
+
+});
+
+function validateDeveloper(val) {
+  $('.error').hide();
+  var developer = val.value;
+  if (developer!="") {
+    $.ajax({
+      type: "POST",
+      async: false,
+      url: "/games/getdevelopers.php",
+      data:{keyword:developer, type:"Validate"},
+      beforeSend: function(){
+        $("#developer").css("background","#00000 url(http://www.vgchartz.com/gamesv2/ajax-loader.gif) no-repeat 165px");
+      },
+      success: function(data){
+        developer=data;
+        return false;
+      }
+    });
+  }
+  if (developer == 0) {
+    //invalid developer
+    $("div#developer_error").show();
+    $("input#developer").focus();
+    return false;
+  }
+  return true;
+}
+
+//To select publisher
+function selectPublisher(val1, val2) {
+  $("input#publisher").val(val2);
+  $('.error').hide();
+  $("#pubsuggestion-box").hide();
+}
+
+//To select developer
+function selectDeveloper(val1, val2) {
+  $("input#developer").val(val2);
+  $('.error').hide();
+  $("#devsuggestion-box").hide();
+}
+
+//To select developer or publisher
+function selectDevPub(val1, val2) {
+  $("input#devpub-list").val(val2);
+  $("input#devpub-name").val(val2);
+  $("input#devpub-id").val(val1);
+  $('.error').hide();
+  $("#devpubsuggestion-box").hide();
+}

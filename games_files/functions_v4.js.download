@@ -1,0 +1,331 @@
+function showControlPanel() {
+  document.getElementById("controlPanelLinks").style.display = "block";
+}
+
+function hideControlPanel() {
+  document.getElementById("controlPanelLinks").style.display = "none";
+}
+
+
+function confirmDelete(delUrl) {
+  if (confirm("Are you sure you want to delete")) {
+    document.location = delUrl;
+  }
+}
+
+function textCounter(field,cntfield,maxlimit) {
+  if (field.value.length > maxlimit) // if too long...trim it!
+  field.value = field.value.substring(0, maxlimit);
+  // otherwise, update 'characters left' counter
+  else
+  cntfield.value = maxlimit - field.value.length;
+}
+
+//if (document.images) {
+//     worldon= new Image(35,35);
+//     worldon.src="http://vgchartz.com/chartImgs/worldOn.gif";  
+//     worldoff= new Image(35,35);
+//     worldoff.src="http://vgchartz.com/chartImgs/world.gif";
+//     usaon= new Image(35,35);
+//     usaon.src="http://vgchartz.com/chartImgs/usaOn.gif";  
+//     usaoff= new Image(35,35);
+//     usaoff.src="http://vgchartz.com/chartImgs/usa.gif";
+//     japon= new Image(35,35);
+//     japon.src="http://vgchartz.com/chartImgs/japOn.gif";  
+//     japoff= new Image(35,35);
+//     japoff.src="http://vgchartz.com/chartImgs/jap.gif";
+//     otherson= new Image(35,35);
+//     otherson.src="http://vgchartz.com/chartImgs/othersOn.gif";  
+//     othersoff= new Image(35,35);
+//     othersoff.src="http://vgchartz.com/chartImgs/others.gif";
+//     blaston= new Image(35,35);
+//     blaston.src="http://vgchartz.com/chartImgs/blastOn.gif";  
+//     blastoff= new Image(35,35);
+//     blastoff.src="http://vgchartz.com/chartImgs/blast.gif";
+//}
+
+function lightup(imgName)
+ {
+   if (document.images)
+    {
+      imgOn=eval(imgName + "on.src");
+      document[imgName].src= imgOn;
+    }
+ }
+
+function turnoff(imgName)
+ {
+   if (document.images)
+    {
+      imgOff=eval(imgName + "off.src");
+      document[imgName].src= imgOff;
+    }
+ }
+
+function outputgradientbar(width, height, gauge, direction, col1, col2, col3)
+ {
+  /*
+  Gradient Bar Script (By Alex Szorkovszky alex@wmresources.com)
+  Permission granted to Dynamicdrive.com to feature script in archive
+  For full source code and installation instructions to this script, visit http://dynamicdrive.com
+  */
+
+    one=new Array();
+    two=new Array();
+    var a=10;
+    var b=11;
+    var c=12;
+    var d=13;
+    var e=14;
+    var f=15;
+
+    //configure gradient
+
+    //width and height of gradient
+    //var width = 200;
+    //var height = 20;
+    
+    //round score
+    gauge=Math.round(gauge);
+
+    //no of pixels between colours
+    var gap = 5;
+
+    //0 for horizontal, 1 for vertical
+    if (typeof direction=='undefined')
+      direction = 0;
+
+    //colour number 1 - enter 1st, 3rd and 5th numbers/letters of colour code
+    one[0]=c;
+    one[1]=c;
+    one[2]=c;
+
+    //colour number 2 - enter 1st, 3rd and 5th numbers/letters of colour code
+    two[0]=c;
+    two[1]=7;
+    two[2]=0;
+
+    if (typeof col1!='undefined')
+      two[0]=col1;
+    if (typeof col2!='undefined')
+      two[1]=col2;
+    if (typeof col3!='undefined')
+      two[2]=col3;
+
+    //end configuration
+
+    if(direction==0) 
+      var num = width / gap;
+    if(direction==1) 
+      var num = height / gap;
+    color2=new Array();
+    color1=new Array();
+    diff=new Array();
+    for(i=0;i<3;i++) {
+      diff[i] = two[i] - one[i];
+      diff[i] = diff[i] / num;
+    }
+    for(i=0;i<3;i++){
+      color1[i] = Math.round(diff[i] * Math.pow(10, 0));
+      if(color1[i] > diff[i])
+        color1[i] = color1[i] - 1;
+      color2[i] = diff[i] - color1[i]; 
+      color2[i] = color2[i] * 15;
+      color2[i] = Math.round(color2[i] * Math.pow(10, 0));
+    }
+    x=new Array();
+    two[0]=0;
+    two[1]=0;
+    two[2]=0;
+    document.write('<table border="0" cellpadding="0" cellspacing="0" width="'+width+'" height="'+height+'">');
+    if(direction==0) 
+      document.write('<tr>');
+    for(i=0;i<=num;i++) {
+      if(direction==1) 
+        document.write('<tr>');
+      if (i>gauge)
+        document.write('<td bgcolor="#383838');
+      else {
+        document.write('<td bgcolor="#');
+        for(j=0;j<3;j++) {
+          if(one[j]==a)
+            document.write("a");
+          if(one[j]==b)
+            document.write("b");
+          if(one[j]==c)
+            document.write("c");
+          if(one[j]==d)
+            document.write("d");
+          if(one[j]==e)
+            document.write("e");
+          if(one[j]==f)
+            document.write("f");
+          if(one[j]<10)
+            document.write(one[j]);
+          if(two[j]==a)
+            document.write("a"); 
+          if(two[j]==b)
+            document.write("b");
+          if(two[j]==c)
+            document.write("c");
+          if(two[j]==d)
+            document.write("d");
+          if(two[j]==e)
+            document.write("e");
+          if(two[j]==f)
+            document.write("f");
+          if(two[j]<10)
+            document.write(two[j]);
+          one[j] = one[j] + color1[j];
+          two[j] = two[j] + color2[j];
+          if(two[j]>15) {
+            two[j] = two[j] - 15;
+            one[j]++;
+          }
+        }
+      }
+      if(direction==0) 
+        document.write('" width="'+gap+'" height="'+height+'">&nbsp;</td>');
+      else if(direction==1) 
+        document.write('" width="'+width+'" height="'+gap+'">&nbsp;</td></tr>');
+    }
+    if(direction==0) 
+      document.write('</tr>');
+    document.write('</table>');
+ 
+ }
+
+function outputgradientbar2(width, height, gauge, direction, col1, col2, col3)
+ {
+  /*
+  Gradient Bar Script (By Alex Szorkovszky alex@wmresources.com)
+  Permission granted to Dynamicdrive.com to feature script in archive
+  For full source code and installation instructions to this script, visit http://dynamicdrive.com
+  */
+
+    one=new Array();
+    two=new Array();
+    var a=10;
+    var b=11;
+    var c=12;
+    var d=13;
+    var e=14;
+    var f=15;
+
+    var output="";
+
+    //configure gradient
+
+    //width and height of gradient
+    //var width = 200;
+    //var height = 20;
+    
+    //round score
+    gauge=Math.round(gauge);
+
+    //no of pixels between colours
+    var gap = 5;
+
+    //0 for horizontal, 1 for vertical
+    if (typeof direction=='undefined')
+      direction = 0;
+
+    //colour number 1 - enter 1st, 3rd and 5th numbers/letters of colour code
+    one[0]=c;
+    one[1]=c;
+    one[2]=c;
+
+    //colour number 2 - enter 1st, 3rd and 5th numbers/letters of colour code
+    two[0]=c;
+    two[1]=7;
+    two[2]=0;
+
+    if (typeof col1!='undefined')
+      two[0]=col1;
+    if (typeof col2!='undefined')
+      two[1]=col2;
+    if (typeof col3!='undefined')
+      two[2]=col3;
+
+    //end configuration
+
+    if(direction==0) 
+      var num = width / gap;
+    if(direction==1) 
+      var num = height / gap;
+    color2=new Array();
+    color1=new Array();
+    diff=new Array();
+    for(i=0;i<3;i++) {
+      diff[i] = two[i] - one[i];
+      diff[i] = diff[i] / num;
+    }
+    for(i=0;i<3;i++){
+      color1[i] = Math.round(diff[i] * Math.pow(10, 0));
+      if(color1[i] > diff[i])
+        color1[i] = color1[i] - 1;
+      color2[i] = diff[i] - color1[i]; 
+      color2[i] = color2[i] * 15;
+      color2[i] = Math.round(color2[i] * Math.pow(10, 0));
+    }
+    x=new Array();
+    two[0]=0;
+    two[1]=0;
+    two[2]=0;
+    output='<table border="0" cellpadding="0" cellspacing="0" width="'+width+'" height="'+height+'">';
+    if(direction==0) 
+      output+='<tr>';
+    for(i=0;i<=num;i++) {
+      if(direction==1) 
+        output+='<tr>';
+      if (i>gauge)
+        output+='<td bgcolor="#383838';
+      else {
+        output+='<td bgcolor="#';
+        for(j=0;j<3;j++) {
+          if(one[j]==a)
+            output+="a";
+          if(one[j]==b)
+            output+="b";
+          if(one[j]==c)
+            output+="c";
+          if(one[j]==d)
+            output+="d";
+          if(one[j]==e)
+            output+="e";
+          if(one[j]==f)
+            output+="f";
+          if(one[j]<10)
+            output+=one[j];
+          if(two[j]==a)
+            output+="a"; 
+          if(two[j]==b)
+            output+="b";
+          if(two[j]==c)
+            output+="c";
+          if(two[j]==d)
+            output+="d";
+          if(two[j]==e)
+            output+="e";
+          if(two[j]==f)
+            output+="f";
+          if(two[j]<10)
+            output+=two[j];
+          one[j] = one[j] + color1[j];
+          two[j] = two[j] + color2[j];
+          if(two[j]>15) {
+            two[j] = two[j] - 15;
+            one[j]++;
+          }
+        }
+      }
+      if(direction==0) 
+        output+='" width="'+gap+'" height="'+height+'">&nbsp;</td>';
+      else if(direction==1) 
+        output+='" width="'+width+'" height="'+gap+'">&nbsp;</td></tr>';
+    }
+    if(direction==0) 
+      output+='</tr>';
+    output+='</table>';
+    return output;
+ }

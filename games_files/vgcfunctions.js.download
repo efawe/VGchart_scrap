@@ -1,0 +1,238 @@
+function FormPage(page, params, updateid, showtext, debug) {
+  if (typeof showtext=='undefined')
+    showtext=0;
+  if (typeof updateid=='undefined')
+    updateid="formcell";
+  if (typeof debug=='undefined')
+    debug=0;
+  if (debug==247)
+    debug=1;
+  var tdformref=document.getElementById(updateid);
+  if (debug==1) {
+    alert(tdformref.innerHTML);
+  }
+  if (showtext==1)
+    tdformref.innerHTML="<table width=\"340\"><tr><td><br/><br/><center><img id=\"indicator\" src=\"../v2_images/ajax-loader.gif\" alt=\"Loading...\" /></center></td></tr></table>";
+ $.ajax( {
+    url: page,
+    type: "post",
+    data: params,
+    success: function(transport){
+      //alert(transport.responseText);
+      //var response = transport.responseText;
+      //response=response.toString();
+      tdformref.innerHTML=transport;
+      //var x = tdformref.getElementsByTagName("script");
+      if (debug==1)
+        alert(transport);
+      //alert(x.length);
+      //var h = document.getElementsByTagName("head")[0];
+      //for(var i=0;i<x.length;i++)
+      //  {
+      // var s = document.createElement("script");
+      // alert(x[i].text);
+      // s.type="text/javascript";
+      // h.appendChild(s);
+      // s.text=x[i].text;
+      // } 
+      var arr = tdformref.getElementsByTagName('script');
+      for (var n = 0; n < arr.length; n++) {
+        //alert(arr[n].innerHTML);          
+        eval(arr[n].innerHTML);
+        if(arr[n].src!="") {
+          if (debug==1) {
+              alert(arr[n].src);
+              //alert(Date());
+            $.getScript({
+              url: arr[n].src + "?" + Date(),
+              cache: true
+            });
+          }
+          else {
+            $.getScript({
+              url: arr[n].src,
+              cache: true
+            });
+          }
+        }
+      }
+    }
+  });
+}
+
+function getScripts(scripts, callback) {
+    var progress = 0;
+    scripts.forEach(function(script) { 
+        $.getScript(script, function () {
+            if (++progress == scripts.length) callback();
+        }); 
+    });
+}
+
+var http_request = false;
+function makePOSTRequest(url, parameters, updateid, showtext){
+   http_request = false;
+   if (typeof updateid=='undefined')
+     updateid="formcell";
+  if (typeof showtext=='undefined')
+    showtext=0;
+  if (showtext==1) {
+    var cellId = document.getElementById(updateid);
+    cellId.innerHTML = "<table width=\"100%\"><tr><td><center><img src=\"../images/ajax-loaderbig.gif\"></center></td></tr></table>";
+  }
+   if (window.XMLHttpRequest) { // Mozilla, Safari,...
+      http_request = new XMLHttpRequest();
+      if (http_request.overrideMimeType) {
+         // set type accordingly to anticipated content type
+         //http_request.overrideMimeType('text/xml');
+         http_request.overrideMimeType('text/html');
+      }
+    } 
+    else if (window.ActiveXObject) { // IE
+        try {
+          http_request = new ActiveXObject("Msxml2.XMLHTTP");
+        } 
+        catch (e) {
+          try {
+             http_request = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          catch (e) {}
+        }
+    }
+    if (!http_request) {
+       alert('Cannot create XMLHTTP instance');
+       return false;
+    }
+
+
+    http_request.onreadystatechange = function() {
+      if (typeof updateid=='undefined')
+        updateid="formcell";
+      if (http_request.readyState == 4) {
+        if (http_request.status == 200) {
+          result = http_request.responseText;
+          var cellId = document.getElementById(updateid);
+          cellId.innerHTML = result;       
+        } 
+        else {
+          alert('There was a problem with the request.');
+        }
+      }
+    };
+    http_request.open('POST', url, true);
+    http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http_request.setRequestHeader("Content-length", parameters.length);
+    http_request.setRequestHeader("Connection", "close");
+    http_request.send(parameters);
+}
+
+function alertContents() {
+    if (typeof updateid=='undefined')
+      updateid="formcell";
+    alert(http_request.status);
+    if (http_request.readyState == 4) {
+      if (http_request.status == 200) {
+        alert(http_request.responseText);
+        result = http_request.responseText;
+        var cellId = document.getElementById(updateid);
+        cellId.innerHTML = result;       
+       } 
+       else {
+        alert('There was a problem with the request.');
+       }
+    }
+}
+
+function get(obj,page,updateid, showtext) {
+    var getstr="";
+    if (typeof updateid=='undefined')
+      updateid="formcell";
+    if (typeof showtext=='undefined')
+      showtext=0;
+    var elem = document.getElementById(obj).elements;
+    for (i=0; i<elem.length; i++) {
+       getstr += elem[i].name + "=" + encodeURI(elem[i].value) + "&";
+    }
+    makePOSTRequest(page, getstr, updateid, showtext);
+}  
+
+function startUpload(showtext, formid, debug){
+    if (showtext==null)
+      showtext=1;
+    if (formid==null)
+      formid="myform";
+    if (debug==null)
+      debug=0;
+    if (debug==1)
+      alert(formid);
+    document.getElementById(formid).style.visibility="hidden";
+    if (showtext==1)
+      document.getElementById("myformdiv").innerHTML += "<table><tr><td>Loading - please wait...</td></tr></table>";
+    //document.getElementById("formcell").innerHTML = "<div id=\"gameBodyBox\"><h1>Edit Game Summary</h1><div id=\"gameBody\">Loading - please wait...</div></div>";
+    return true;
+}
+
+function stopUpload(result, param1, param2, param3, param4, updateid){
+    if (typeof updateid=='undefined')
+      updateid="formcell";
+    if (result=="bannerprev")
+      document.getElementById(updateid).innerHTML='<div id="gameSplashImage" style="background-image:url(/games/banners/'+param1+');">&nbsp;</div><center><b><button type="button" style="color:#ffffff;" onclick="FormPage(\'/games/bannersave.php\',\'id='+param2+'&filename='+param1+'\',\'formcell\');return false;">Confirm</button></b></center>'
+    else if (result=="commentdisp")
+      FormPage("/games/commentdisp.php","page="+param1+"&commentid="+param2+"&commenttype="+param3+"&sort="+param4,updateid,0);
+    else if (result=="profilewall")
+      FormPage("../profiles/profilewall.php","thisid="+param1,updateid,0);
+    else if (result=="pollofweek")
+      FormPage("/pollofweek.php", "", updateid, 0);
+    else
+      document.getElementById(updateid).innerHTML = result;     
+    return true;   
+}
+
+//code for outputting review score box
+var fromHidden = -90;
+
+// utility funciton to align 0 degrees with top
+// takes degrees and returns degrees - 45
+function topAlign(degrees) {
+    return degrees - 45
+};
+
+// utility function to rotate a jQuery element
+// takes element and the degree of rotation (from the top) 
+function rotate(el, degrees) {
+	var degrees = topAlign(degrees || 0);
+	el.css(
+		'transform', 'rotate('+degrees+'deg)',
+		'-webkit-transform', 'rotate('+degrees+'deg)',
+		'-moz-transform', 'rotate('+degrees+'deg)',
+		'-ms-transform', 'rotate('+degrees+'deg)',
+		'-o-transform', 'rotate('+degrees+'deg)'
+	)
+}
+
+// function to draw semi-circle
+// takes a jQuery element and a value (between 0 and 1)
+// element must contain four .arc_q elements
+function circle(el, normalisedValue) {
+	var degrees = normalisedValue * 360;             // turn normalised value into degrees
+	var counter = 1;                                 // keeps track of which quarter we're working with
+	el.find('.score_arc').each(function(){               // loop over quarters..
+		var angle = Math.min(counter * 90, degrees); // limit angle to maximum allowed for this quarter
+		rotate($(this), fromHidden + angle);         // rotate from the hiding place
+		counter++; // track which quarter we'll be working with in next pass over loop
+	});
+	if (degrees > 90) {                              // hide the cover-up square soon as we can
+		el.find('.score_arc_cover').css('display', 'none');
+	}
+}
+
+// uses the the circle function to 'animate' drawing of the semi-circle
+// incrementally increses the value passed by 0.01 up to the value required
+function animate(el, normalisedValue, current) {
+	var current = current || 0;
+	circle(el, current);
+	if (current < normalisedValue) {
+		current += 0.01;
+		setTimeout(function () { animate(el, normalisedValue, current); }, 1);
+	}
+}

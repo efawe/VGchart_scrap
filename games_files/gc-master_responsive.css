@@ -1,0 +1,179 @@
+/* ###################################################################################
+ Responsive
+################################################################################### */
+
+@media (min-width: 990px){
+  #friend_activity_feed {
+    margin-top: 0px;
+  }
+
+  #friend_activity_wrap h2 {
+    margin-bottom: 50px;
+  }
+
+  #wall_posts_wrap {
+    margin-top: 0px;
+  }
+
+  #vgmoney_wrap {
+    margin-top: 0px;
+  }
+
+  .profile_heading, 
+  .home_heading {
+    margin-bottom: 50px;
+  }
+
+  .home_activity_pagination {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  #profile_game_collection h2 {
+    margin-bottom: 15px;
+  }
+
+  #profile_recent_activity h2 {
+    margin-bottom: 15px;
+  }
+
+  #profile_status_bubble {
+    margin-top: 0px;
+  }
+
+  .profile_status_arrow {
+    display: block;
+  }
+
+  .profile_status_arrow_up {
+    display: none;
+  }
+
+  .view_more_activity{
+    top: 20px; 
+  }
+
+  .active_button {   
+    float: left;
+    margin-right: 12px;
+    width: 120px!important; 
+  }
+
+  .inactive_button {
+    float: left;
+    margin-right: 10px;
+    width: 120px!important; 
+  }
+
+  #games_wrap h2 {
+    width: auto;
+  }
+
+  #games_wrap > div:nth-child(1) > div {
+    overflow: auto;
+    padding: 2px;
+    float: right!important;
+  }
+
+  #games_wrap #game_collection_nav {
+    display: inline-block;
+  }
+
+  #game_collection_nav li {
+    float: left;
+    margin-left: 8px;
+    margin-top: 2px;
+  }
+
+  #add_game_search {
+    width: 125px;
+    float: left;
+  }
+
+  #game_browse_nav {
+    display: inline-block;
+    z-index: 100;
+    margin-top: 5px;
+  }
+
+  #points_filter_wrap > form > div > div:nth-child(1) {
+    float: left!important;
+  }	
+
+  #game_sort_box {
+    width: auto;
+    float: left;
+    margin-bottom: 0px;
+  }
+
+  #points_filter_box {
+    width: auto;
+    float: left;
+    margin-bottom: 0px;
+  }
+
+  #console_filter_box {
+    width: auto;
+    float: left;
+    margin-bottom: 0px;
+  }
+
+  #points_filter_wrap > form > div > div:nth-child(2) {
+    float: right!important;
+  }
+
+  #points_filter_container {
+	float: right;
+        width: auto;
+  }
+
+  #points_filter_btn {
+    margin-top: 0px;
+    width: auto;
+  }
+
+  #points_nav_wrap {
+    display: inline-block;
+  }
+
+  #month_filter_box {
+    float: left;
+    margin-bottom: 0px;
+    width: auto;
+  }
+
+  #recent_posts_nav {
+    margin-bottom: 0px;
+  }
+
+  #badge_header_nav {
+    margin-bottom: 0px;
+  }
+
+  .game_rating_wrap {
+        margin-top: 5px;
+  }
+
+  #profile_details_col1 {
+	width: 200px;
+	float: left;
+	margin-right: 20px;
+  } 
+
+  #profile_details_col2 {
+	float: left;
+        max-width: 100%;
+        text-align: left;
+  }
+}
+
+@media (max-width:610px){
+  .Responsive .PageNav .pageNavHeader {
+    display:none
+  }
+}
+
+@media (max-width:480px){
+  .Responsive .PageNav
+}
