@@ -13,7 +13,7 @@ import re
 
 df = pd.DataFrame(columns=["title", "user_Score", "release_Date", "console", "url",
                            "publisher", "developer", "tot_ship", 'tot_sale','na_sale','pal_sale','jp_sale',
-                           'other_sale', 'last_update', 'VGscore'])    
+                           'other_sale', 'last_update', 'VGscore', 'genre'])    
 
 page = 1
 urlprefix = 'http://www.vgchartz.com/games/games.php?page='
@@ -25,7 +25,7 @@ with requests.Session() as session:
               try:     
                      req = Request(url, headers ={'User-Agent':'Mozilla/5.0'})
                      page1 = urlopen(req)
-                     if page1.getcode() == 200:
+                     if page1:
                             webpage = page1.read()
                             page_soup = soup(webpage, "html.parser")
                             main = page_soup.findAll("tr", {'style': re.compile('background.*')})
@@ -50,27 +50,27 @@ with requests.Session() as session:
                                    game_data = {'title':[ahref], "console":[console], "user_Score":[user_score], "VGscore":[VGscore], "release_Date": [release_date], "publisher":[publisher],
                                                  "developer":[developer],"tot_ship": [tot_ship],"tot_sale": [tot_sale], "na_sale":[na_sale], "pal_sale":[pal_sale],
                                                  "jp_sale": [jp_sale], "other_sale": [other_sale], "last_update": [last_update], "url":[url]}
-                                   df = df.append(pd.DataFrame(data = game_data)).reset_index(drop = True)
+
+
+                                   df = df.append(pd.DataFrame(data = game_data), sort = False).reset_index(drop = True)       
               except Exception as inst:
                      print (inst)
                      print (page)
+              page += 1
+              print ("Done " + str(page))
 
-              try:     
-                     for game in df['url']:
-                            req = Request(game.replace("?region=All", "sales"), headers ={'User-Agent':'Mozilla/5.0'})
-                            page1 = urlopen(req)
-                            if page1.getcode() == 200:
-                                   webpage = page1.read()
-                                   page_soup = soup(webpage, "html.parser")
-                                   main = page_soup.find("div", {'id': 'gameGenInfoBox'})
-                                   genre = main.findAll('p')[3].contents[0]
-                                   sales = page_soup.findAll('div', {'id': 'salesWeekly'})
-                                   if sales:
-                                          country1 = sales[0].findAll("div")[2].contents[0]
-                                          
-
-                     page += 1
-                     print ("Done " + str(page))
+              try: 
+                     req2 = Request(game_data['url'][0], headers ={'User-Agent':'Mozilla/5.0'})
+                     page2 = urlopen(req2)
+                     if page2:
+                            webpage2 = page2.read()
+                            page_soup2 = soup(webpage2, "html.parser")
+                            main2 = page_soup2.find("h2",text = "Genre")
+                            if main2.find_next() != "Release Dates":
+                                   game_data['genre'] = main2.find_next().contents[0]
+              except Exception as inst:
+                     print (inst)
+                     print (page)
                      
 print ("Done")
 df.to_csv("vgscore.csv", index = False)  
